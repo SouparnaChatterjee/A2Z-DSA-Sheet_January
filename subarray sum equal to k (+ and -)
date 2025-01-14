@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int longestSubarray(vector<int>& arr, int k) {
+        unordered_map<int, int> prefixSumIndex;
+        prefixSumIndex[0] = -1; // Handle the case where the subarray starts from index 0
+        int currSum = 0;
+        int res = 0;
+
+        for (int i = 0; i < arr.size(); i++) {
+            currSum += arr[i];
+
+            // Check if we have a subarray with sum `k`
+            if (prefixSumIndex.find(currSum - k) != prefixSumIndex.end()) {
+                res = max(res, i - prefixSumIndex[currSum - k]);
+            }
+
+            // Store the current cumulative sum if not already present
+            if (prefixSumIndex.find(currSum) == prefixSumIndex.end()) {
+                prefixSumIndex[currSum] = i;
+            }
+        }
+
+        return res;
+    }
+};
