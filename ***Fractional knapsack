@@ -1,0 +1,33 @@
+lass Solution {
+  public:
+    // Function to get the maximum total value in the knapsack.
+    double fractionalKnapsack(vector<int>& val, vector<int>& wt, int capacity) {
+        // Your code here
+        int n=val.size();
+        vector<pair<double,int>> ratio(n);
+        for(int i=0;i<n;i++)
+        {
+            ratio[i]={(double)val[i]/wt[i], i};
+        }
+        sort(ratio.rbegin(),ratio.rend());
+        double totalVal=0;
+        for(int i=0;i<n && capacity>0; i++)
+        {
+          int index=ratio[i].second;
+          int value=val[index];
+          int weight=wt[index];
+          
+          if(weight<=capacity)
+          {
+              capacity-=weight;
+              totalVal+=value;
+          }
+          else
+          {
+              totalVal+=value*((double)capacity/weight);
+              capacity=0;
+          }
+        }
+        return totalVal;
+    }
+};
